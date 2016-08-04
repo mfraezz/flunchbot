@@ -169,6 +169,23 @@ function flunchBot(settings, client) {
 
         });
 
+    controller.hears(['find me ([0-9]*)'],
+        'direct_message,direct_mention,mention', function(bot, message) {
+            var count = message.match[1];
+            if (count === 0) {
+                count = 1;
+            }
+            if (count > 10) {
+                count = 10;
+            }
+            console.log('finding ' + count);
+            places = client.findRestaurants(count);
+            bot.reply(message, 
+                'I have found ' + count + ' places for you:\n' + places
+            );
+        });
+    
+
     function formatUptime(uptime) {
         var unit = 'second';
         if (uptime > 60) {

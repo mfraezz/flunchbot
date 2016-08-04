@@ -47,6 +47,7 @@ This bot demonstrates many of the core features of Botkit:
 var settings = require('./defaults.json');
 var localSettings = require('./local.json');
 var flunchBot = require('./flunchBotModel').flunchBot;
+var factualClient = require('./factualApiClient').factualClient;
 
 if (!localSettings) {
     console.log('Error: Specify local settings in `local.json`');
@@ -63,15 +64,6 @@ if (!settings.slackToken) {
     process.exit(1);
 }
 
-// TODO: Add Factual support
-// if (!settings.factualKey) {
-//     console.log('Error: Specify factualKey in `local.json`');
-//     process.exit(1);
-// }
-//
-// if (!settings.factualSecret) {
-//     console.log('Error: Specify factualSecret in `local.json`');
-//     process.exit(1);
-// }
+var client = new factualClient(settings);
 
-new flunchBot(settings, null);
+new flunchBot(settings, client);
