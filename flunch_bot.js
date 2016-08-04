@@ -20,7 +20,7 @@ This bot demonstrates many of the core features of Botkit:
   Get a Bot token from Slack:
     -> http://my.slack.com/services/new/bot
   Run your bot from the command line:
-    token=<MY TOKEN> node slack_bot.js
+    token=<MY TOKEN> node flunch_bot.js
 
 # USE THE BOT:
   Find your bot inside Slack to send it a direct message.
@@ -48,7 +48,7 @@ if (!process.env.token) {
     process.exit(1);
 }
 
-var Botkit = require('./lib/Botkit.js');
+var Botkit = require('botkit');
 var os = require('os');
 
 var controller = Botkit.slackbot({
@@ -101,7 +101,7 @@ controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention
 
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
-            bot.reply(message, 'Your name is ' + user.name);
+            bot.reply(message, 'You are ' + user.name);
         } else {
             bot.startConversation(message, function(err, convo) {
                 if (!err) {
@@ -167,29 +167,37 @@ controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention
 
 
 controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function(bot, message) {
-
-    bot.startConversation(message, function(err, convo) {
-
-        convo.ask('Are you sure you want me to shutdown?', [
-            {
-                pattern: bot.utterances.yes,
-                callback: function(response, convo) {
-                    convo.say('Bye!');
-                    convo.next();
-                    setTimeout(function() {
-                        process.exit();
-                    }, 3000);
-                }
-            },
-        {
-            pattern: bot.utterances.no,
-            default: true,
-            callback: function(response, convo) {
-                convo.say('*Phew!*');
-                convo.next();
+    controller.storage.users.get(message.user, function(err, user) {
+        if (user && user.name) {
+            if (user.name === 'master'){
+                bot.startConversation(message, function(err, convo) {
+                    convo.ask('Are you sure you want me to shutdown?', [
+                        {
+                            pattern: bot.utterances.yes,
+                            callback: function(response, convo) {
+                                convo.say('Bye!');
+                                convo.next();
+                                setTimeout(function() {
+                                    process.exit();
+                                }, 3000);
+                            }
+                        },
+                    {
+                        pattern: bot.utterances.no,
+                        default: true,
+                        callback: function(response, convo) {
+                            convo.say('*Phew!*');
+                            convo.next();
+                        }
+                    }
+                    ]);
+                });
+            } else {
+                bot.reply(message, 'You\'re not the boss of me, ' + user.name + '!');
             }
+        } else {
+            bot.reply(message, 'You\'re not the boss of me!');
         }
-        ]);
     });
 });
 
