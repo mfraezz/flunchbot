@@ -1,5 +1,6 @@
 {
 	"slackToken" : null,
 	"factualKey": null,
-	"factualSecret": null
+	"factualSecret": null,
+	"debug": true
 }

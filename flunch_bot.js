@@ -44,11 +44,13 @@ This bot demonstrates many of the core features of Botkit:
     -> http://howdy.ai/botkit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var settings = require('./local.json');
+var settings = require('./defaults.json');
+var localSettings = require('./local.json');
 
-if (!settings) {
-    console.log('Error: Specify local settings in `local.json`');
-    process.exit(1);
+for (var key in localSettings) {
+    if (localSettings[key] !== undefined){  // ignore key:null mapping
+        settings[key] = localSettings[key];
+    }
 }
 
 if (!settings.slackToken) {
@@ -71,7 +73,7 @@ var Botkit = require('botkit');
 var os = require('os');
 
 var controller = Botkit.slackbot({
-    debug: true
+    debug: settings.debug
 });
 
 var bot = controller.spawn({
