@@ -37,6 +37,7 @@ function factualClient(settings) {
 }
 
 factualClient.prototype.findRestaurants = function(count){
+	// TODO: fix this. Bot responds before this executes
 	return this.api.get('/t/places-us',{
 			geo:{"$circle":{"$center":[this.lat, this.lon],"$meters":1000}},
 			filters:{category_ids:{"$includes_any":[312,347]}}
