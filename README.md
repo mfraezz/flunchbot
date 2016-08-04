@@ -2,6 +2,7 @@
 A Slack Bot to make Fancy Lunch decisions
 
 #### Running FLunchbot
+* Install dependencies: `npm install`
 * Get a Bot token from Slack:
   -> http://my.slack.com/services/new/bot
 * Copy default settings to `local.json`: `cp defaults.json local.json`
