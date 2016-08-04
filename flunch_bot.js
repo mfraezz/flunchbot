@@ -166,7 +166,7 @@ controller.hears(['what is my name', 'who am i'], 'direct_message,direct_mention
 });
 
 
-controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['shutdown', 'kill yourself'], 'direct_message,direct_mention,mention', function(bot, message) {
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             if (user.name === 'master'){
@@ -211,6 +211,16 @@ controller.hears(['papers, please', 'uptime', 'identify yourself', 'who are you'
         bot.reply(message,
             ':robot_face: I am a bot named <@' + bot.identity.name +
              '>. I have been running for ' + uptime + ' on ' + hostname + '.');
+
+    });
+
+controller.hears(['what is your purpose', 'tell me about yourself'],
+    'direct_message,direct_mention,mention', function(bot, message) {
+
+        bot.reply(message,
+            ':robot_face: I am <@' + bot.identity.name +
+             '>. My purpose in existence is to make fancy lunch decisions. ' + 
+             'I cannot do so yet, but I will improve.');
 
     });
 
