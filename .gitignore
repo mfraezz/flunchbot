@@ -1,3 +1,8 @@
 # Settings File
 ###############
 local.json
+
+################
+# Installed Deps
+################
+node_modules
