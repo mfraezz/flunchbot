@@ -4,8 +4,9 @@ A Slack Bot to make Fancy Lunch decisions
 #### Running FLunchbot
 * Get a Bot token from Slack:
   -> http://my.slack.com/services/new/bot
-* Run your bot from the command line: `token=<MY TOKEN> node flunch_bot.js`
-
+* Copy default settings to `local.json`: `cp defaults.json local.json`
+* Add bot token to local settings as `slackToken`
+* Run your bot from the command line: `node flunch_bot.js`
 
 #### TODO:
 * Add integration with [Factual API](http://developer.factual.com/api-docs/) to get restaurant info.
