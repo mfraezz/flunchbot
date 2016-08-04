@@ -5,7 +5,7 @@
  \ \_\   \ \_____\\ \_____\\ \_\\"\_\\ \_____\\ \_\ \_\\ \_____\\ \_____\  \ \_\ 
   \/_/    \/_____/ \/_____/ \/_/ \/_/ \/_____/ \/_/\/_/ \/_____/ \/_____/   \/_/ 
                                                                                  
-This is shameless stolen from the sample Slack Bot,
+This is shamelessly stolen from the sample Slack Bot,
    found at https://github.com/howdyai/botkit/blob/master/slack_bot.js
 
 This bot demonstrates many of the core features of Botkit:
@@ -19,8 +19,10 @@ This bot demonstrates many of the core features of Botkit:
 # RUN THE BOT:
   Get a Bot token from Slack:
     -> http://my.slack.com/services/new/bot
+  Copy default settings to `local.json`:
+    `cp defaults.json local.json`
   Run your bot from the command line:
-    token=<MY TOKEN> node flunch_bot.js
+    `node flunch_bot.js`
 
 # USE THE BOT:
   Find your bot inside Slack to send it a direct message.
@@ -42,11 +44,28 @@ This bot demonstrates many of the core features of Botkit:
     -> http://howdy.ai/botkit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+var settings = require('./local.json');
 
-if (!process.env.token) {
-    console.log('Error: Specify token in environment');
+if (!settings) {
+    console.log('Error: Specify local settings in `local.json`');
     process.exit(1);
 }
+
+if (!settings.slackToken) {
+    console.log('Error: Specify slackToken in `local.json`');
+    process.exit(1);
+}
+
+// TODO: Add Factual support
+// if (!settings.factualKey) {
+//     console.log('Error: Specify factualKey in `local.json`');
+//     process.exit(1);
+// }
+//
+// if (!settings.factualSecret) {
+//     console.log('Error: Specify factualSecret in `local.json`');
+//     process.exit(1);
+// }
 
 var Botkit = require('botkit');
 var os = require('os');
@@ -56,7 +75,7 @@ var controller = Botkit.slackbot({
 });
 
 var bot = controller.spawn({
-    token: process.env.token
+    token: settings.slackToken
 }).startRTM();
 
 
