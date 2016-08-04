@@ -1,0 +1,11 @@
+{
+  "name": "FLunchbot",
+  "version": "0.0.0",
+  "description": "Makes lunch decisions",
+  "repository": "https://github.com/mfraezz/flunchbot",
+  "author": "mfraezz",
+  "dependencies": {
+    "botkit": "0.2.2",
+    "factual-api": "1.0.7"
+  }
+}
