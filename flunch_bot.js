@@ -22,11 +22,6 @@ for (var key in localSettings) {
     }
 }
 
-if (!settings.slackToken) {
-    console.log('Error: Specify slackToken in `local.json`');
-    process.exit(1);
-}
-
 var client = new factualClient(settings);
 
 new flunchBot(settings, client);

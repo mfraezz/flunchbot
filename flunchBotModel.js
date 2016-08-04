@@ -2,6 +2,12 @@ var Botkit = require('botkit');
 var os = require('os');
 
 function flunchBot(settings, client) {
+
+    if (!settings.slackToken) {
+        console.log('Error: Specify slackToken in `local.json`');
+        process.exit(1);
+    }
+
     var controller = Botkit.slackbot({
         debug: settings.debug
     });
