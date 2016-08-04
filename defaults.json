@@ -1,8 +1,8 @@
 {
-	"slackToken" : null,
-	"factualKey": null,
-	"factualSecret": null,
-	"latitude": "40.7142700",
-	"longitude": "-74.0059700",
-	"debug": true
+    "slackToken" : null,
+    "factualKey": null,
+    "factualSecret": null,
+    "latitude": "40.7142700",
+    "longitude": "-74.0059700",
+    "debug": true
 }
