@@ -185,10 +185,12 @@ function flunchBot(settings, client) {
                 count = 10;
             }
             console.log('finding ' + count);
-            places = client.findRestaurants(count);
-            bot.reply(message, 
-                'I have found ' + count + ' places for you:\n' + places
-            );
+            client.findRestaurants(count, function(places){
+                bot.reply(message, 
+                    'I have found ' + count + ' places for you:\n' + places
+                );    
+            });
+            
         });
     
 

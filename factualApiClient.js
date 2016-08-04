@@ -36,14 +36,14 @@ function factualClient(settings) {
     this.api = new Factual(settings.factualKey, settings.factualSecret);
 }
 
-factualClient.prototype.findRestaurants = function(count){
-    // TODO: fix this. Bot responds before this executes
+factualClient.prototype.findRestaurants = function(count, cb){
+    // TODO: improve this
     return this.api.get('/t/places-us',{
             geo:{"$circle":{"$center":[this.lat, this.lon],"$meters":1000}},
             filters:{category_ids:{"$includes_any":[312,347]}}
         }, function (error, res) {
 
-        console.log(res.data);
+        console.log(res);
 
         var indices = getRandomIntList(1, res.data.length, count);
         var restaurants = '';
@@ -52,7 +52,7 @@ factualClient.prototype.findRestaurants = function(count){
             restaurants += '* ' + restaurant.name + ' (' + restaurant.address + ')\n';
         }
         console.log(restaurants);
-        return restaurants;
+        return cb(restaurants);
     });
 };
 
