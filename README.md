@@ -5,8 +5,11 @@ A Slack Bot to make Fancy Lunch decisions
 * Install dependencies: `npm install`
 * Get a Bot token from Slack:
   -> http://my.slack.com/services/new/bot
+* Get OAuth keys from Factual:
+  -> https://www.factual.com/keys
 * Copy default settings to `local.json`: `cp defaults.json local.json`
-* Add bot token to local settings as `slackToken`
+* Add bot token and Factual creds to `local.json`
+* (Optional) Specify latidude and longitude in `local.json`
 * Run your bot from the command line: `node flunch_bot.js`
 
 #### TODO:
