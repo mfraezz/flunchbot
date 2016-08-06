@@ -39,8 +39,9 @@ function factualClient(settings) {
 factualClient.prototype.findRestaurants = function(count, cb){
     // TODO: improve this
     return this.api.get('/t/places-us',{
-            geo:{"$circle":{"$center":[this.lat, this.lon],"$meters":1000}},
-            filters:{category_ids:{"$includes_any":[312,347]}}
+            geo:{"$within":{"$rect":[[38.032647,-78.484397],[38.027087,-78.476576]]}},
+            filters:{category_ids:{"$includes_any":[312,347]}},
+            limit:50
         }, function (error, res) {
 
         console.log(res);
