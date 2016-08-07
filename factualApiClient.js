@@ -36,10 +36,21 @@ function factualClient(settings) {
     this.api = new Factual(settings.factualKey, settings.factualSecret);
 }
 
-factualClient.prototype.findRestaurants = function(count, cb){
+factualClient.prototype.findRestaurants = function(count, here, cb){
     // TODO: improve this
+
+    /*
+    TODO: geoFilter should ideally be based on a list of locations FLunchbot knows about
+    Some locations would be saved in configuration and some would be given by the users on the channel.
+    The pattern matched in flunchBotModel for `here` would be a string that then was compared to the known locations.
+    */
+    var self = this;
+    self.geoFilter = {"$rect":[[38.032647,-78.484397],[38.027087,-78.476576]]};
+    if(here) {
+        self.geoFilter = {"$center":[this.lat, this.lon],"$meters":1000};
+    }
     return this.api.get('/t/places-us',{
-            geo:{"$within":{"$rect":[[38.032647,-78.484397],[38.027087,-78.476576]]}},
+            geo:{"$within": self.geoFilter},
             filters:{category_ids:{"$includes_any":[312,347]}},
             limit:50
         }, function (error, res) {

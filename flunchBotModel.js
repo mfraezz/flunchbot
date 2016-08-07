@@ -175,8 +175,9 @@ function flunchBot(settings, client) {
 
         });
 
-    controller.hears(['find me ([0-9]*)'],
+    controller.hears(['find me ([0-9]*)( here)?'],
         'direct_message,direct_mention,mention', function(bot, message) {
+            var here = Boolean(message.match[2]);
             var count = message.match[1];
             if (count === 0) {
                 count = 1;
@@ -185,7 +186,7 @@ function flunchBot(settings, client) {
                 count = 10;
             }
             console.log('finding ' + count);
-            client.findRestaurants(count, function(places){
+            client.findRestaurants(count, here, function(places){
                 bot.reply(message, 
                     'I have found ' + count + ' places for you:\n' + places
                 );    
