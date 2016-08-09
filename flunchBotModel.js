@@ -1,5 +1,6 @@
 var Botkit = require('botkit');
 var os = require('os');
+var placeTypes = require('./placeTypes.json'); 
 
 function flunchBot(settings, client) {
 
@@ -175,7 +176,7 @@ function flunchBot(settings, client) {
 
         });
 
-    controller.hears(['find me ([0-9]*)'],
+    controller.hears(['find me ([0-9]*)( ([a-z]*( or )?)*)?'],
         'direct_message,direct_mention,mention', function(bot, message) {
             var count = message.match[1];
             if (count === 0) {
@@ -184,8 +185,25 @@ function flunchBot(settings, client) {
             if (count > 10) {
                 count = 10;
             }
-            console.log('finding ' + count);
-            client.findRestaurants(count, function(places){
+
+            var types = [];
+
+            try {
+                var possibleTypes = message.match[2].split(' or ');
+
+                for (var t in possibleTypes) {
+                    if (placeTypes[possibleTypes[t].trim()] !== undefined){
+                        types.push(placeTypes[possibleTypes[t].trim()]);
+                    }
+                }
+            } catch (err) { }
+
+            if (types.length === 0) {
+                types = [placeTypes.restaurants];
+            }
+
+            console.log('finding ' + count + ' of ' + types);
+            client.findRestaurants(count, types, function(places){
                 bot.reply(message, 
                     'I have found ' + count + ' places for you:\n' + places
                 );    

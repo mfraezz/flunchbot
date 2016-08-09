@@ -37,18 +37,17 @@ function factualClient(settings) {
     this.api = new Factual(settings.factualKey, settings.factualSecret);
 }
 
-factualClient.prototype.findRestaurants = function(count, cb){
+factualClient.prototype.findRestaurants = function(count, type_ids, cb){
     // TODO: improve this
     return this.api.get('/t/places-us',{
             geo:{"$within":{"$rect":[[38.032647,-78.484397],[38.027087,-78.476576]]}},
             filters:{category_ids:{"$includes_any":[
-                347, // Restaurants
-                // 312, // Bars
+                type_ids.toString()
             ]}},
             limit:50
         }, function (error, res) {
 
-        console.log(res);
+        // console.log(res);
 
         var indices = getRandomIntList(1, res.data.length, count);
         var restaurants = '';
