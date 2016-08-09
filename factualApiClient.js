@@ -31,16 +31,14 @@ function factualClient(settings) {
         process.exit(1);
     }
 
-    this.lat = settings.latitude;
-    this.lon = settings.longitude;
-
+    this.geo = settings.geoFilter;
     this.api = new Factual(settings.factualKey, settings.factualSecret);
 }
 
 factualClient.prototype.findRestaurants = function(count, type_ids, cb){
     // TODO: improve this
     return this.api.get('/t/places-us',{
-            geo:{"$within":{"$rect":[[38.032647,-78.484397],[38.027087,-78.476576]]}},
+            geo:{"$within": this.geo},
             filters:{category_ids:{"$includes_any":[
                 type_ids.toString()
             ]}},

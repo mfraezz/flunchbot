@@ -2,7 +2,6 @@
     "slackToken" : null,
     "factualKey": null,
     "factualSecret": null,
-    "latitude": "40.7142700",
-    "longitude": "-74.0059700",
+    "geoFilter": {"$rect":[[40.7117700,-74.0034700],[40.7167700,-74.0084700]]},
     "debug": true
 }
