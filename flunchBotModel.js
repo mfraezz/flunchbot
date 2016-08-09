@@ -123,28 +123,35 @@ function flunchBot(settings, client) {
         controller.storage.users.get(message.user, function(err, user) {
             if (user && user.name) {
                 if (user.name === 'master'){
-                    bot.startConversation(message, function(err, convo) {
-                        convo.ask('Are you sure you want me to shutdown?', [
+                    if (message.match[0] === 'kill yourself') {
+                        bot.reply(message, 'Yes, my master! :robot_face: :gun: ');
+                        setTimeout(function() {
+                            process.exit();
+                        }, 3000);
+                    } else {
+                        bot.startConversation(message, function(err, convo) {
+                            convo.ask('Are you sure you want me to shutdown?', [
+                                {
+                                    pattern: bot.utterances.yes,
+                                    callback: function(response, convo) {
+                                        convo.say('Bye!');
+                                        convo.next();
+                                        setTimeout(function() {
+                                            process.exit();
+                                        }, 3000);
+                                    }
+                                },
                             {
-                                pattern: bot.utterances.yes,
+                                pattern: bot.utterances.no,
+                                default: true,
                                 callback: function(response, convo) {
-                                    convo.say('Bye!');
+                                    convo.say('*Phew!*');
                                     convo.next();
-                                    setTimeout(function() {
-                                        process.exit();
-                                    }, 3000);
                                 }
-                            },
-                        {
-                            pattern: bot.utterances.no,
-                            default: true,
-                            callback: function(response, convo) {
-                                convo.say('*Phew!*');
-                                convo.next();
                             }
-                        }
-                        ]);
-                    });
+                            ]);
+                        });
+                    }
                 } else {
                     bot.reply(message, 'You\'re not the boss of me, ' + user.name + '!');
                 }
